@@ -11,14 +11,20 @@ Bundle cortical brain network/parcellation that are publicly available in a conv
 * Schafer
 * Yeo?
 * Chan 2014
-* Han 2018
+* Han 2018 - 5 age groups
 
 
 ## 2. Make a function that reads in gifti/cifti of data + parcellation and outputs corr-matrix
 * Look into portion of R-for-brain-network repo
+	+ `cii2mat.R`, `gii2mat.R`
+	+ Use the above function within a wrapper to use the default atlases? 
+
 
 ## 3. How about volumes?
-* Use `oro.nifti`
+* Use `oro.nifti` or `Rnifti`
 * MNI based atlas?
+		+ Power 2011 coordinates are in MNI, create sepheres in 333?
+		+ Han 2018 has NIFTI files for 5 age groups
 * FreeSurfer native-space based segmentation
+		+ The function has to take in a segmentation files in mgz format? 
 

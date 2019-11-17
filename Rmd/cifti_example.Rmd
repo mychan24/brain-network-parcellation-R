@@ -1,0 +1,38 @@
+---
+title: "cii2mat.R example"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+source("../R/cii2mat.R")
+
+func_file <- "../data/test_data/MSC/derivatives/surface_pipeline/sub-MSC01/processed_restingstate_timecourses/ses-func01/cifti/sub-MSC01_ses-func01_task-rest_bold_32k_fsLR.dtseries.nii"
+
+parcel_file <- "../data/test_data/MSC/derivatives/surface_pipeline/sub-MSC01/surface_parcellation/sub-MSC01_parcels.dtseries.nii"
+
+tmask <- "../data/test_data/MSC/derivatives/surface_pipeline/sub-MSC01/processed_restingstate_timecourses/ses-func01/cifti/sub-MSC01_ses-func01_task-rest_bold_32k_fsLR_tmask.txt"
+
+parcel_system <- read.table("../data/test_data/MSC/parcel_community/sub-MSC01_node_parcel_comm.txt", sep = ",", header=F)
+
+
+m <- cii2mat(func_file = func_file, 
+        parcel_file = parcel_file, 
+        tmask = tmask, 
+        surface_only = FALSE)
+```
+
+
+```{r, fig.width=5, fig.height=6}
+superheat::superheat(m$z, 
+                     membership.rows = parcel_system$V3,
+                     membership.cols = parcel_system$V3,
+                     heat.lim = c(-.5,.5),
+                     heat.pal = c("#b35806", "white", "#542788"))
+                     
+```
+

@@ -27,8 +27,8 @@ cii2mat <- function(func_file, parcel_file, tmask=NULL, surface_only=FALSE){
   library(cifti)
   
   # Load CIFTI files
-  cii <- read_cifti(func_file, drop_data = FALSE, trans_data = T) 
-  parcel <- as.matrix(read_cifti(parcel_file)$data)
+  cii <- suppressWarnings(read_cifti(func_file, drop_data = FALSE, trans_data = T))
+  parcel <- as.matrix(suppressWarnings(read_cifti(parcel_file)$data))
   
   if(is.null(tmask)){
     tmask <- matrix(data = 1, nrow = dim(cii$data)[,2])
@@ -67,7 +67,7 @@ cii2mat <- function(func_file, parcel_file, tmask=NULL, surface_only=FALSE){
   if(surface_only==TRUE){
     cdata <- as.matrix(cii$data[cii$brainstructureindex==1 | cii$brainstructureindex==2,,])
   }else{
-    cdata <- cii$data
+    cdata <- as.matrix(cii$data[,,])
   }
     
   
@@ -86,5 +86,8 @@ cii2mat <- function(func_file, parcel_file, tmask=NULL, surface_only=FALSE){
   z <- psych::fisherz(r)  # Fisher's z-transform: 0.5 * log((1+r)/(1-r))
   diag(z) <- 0       
   
-  return(r, z)
+  m <- list()
+  m$r <- r
+  m$z <- z
+  return(m)
 }
